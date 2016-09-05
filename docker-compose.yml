@@ -1,0 +1,68 @@
+version: "2"
+
+services:
+  node:
+    container_name: node-perfect-1
+    image: jules241/node-perfect-1
+    build:
+      context: .
+      dockerfile: .docker/node.dev.dockerfile
+  #  command: nodemon --debug=6666
+    ports:
+      - "8080:3000"
+      - "5000:5000"
+    volumes:
+      - .:/usr/src/app
+      - 'node_modules:/usr/src/app/node_modules'
+    working_dir: /usr/src/app
+    #env_file:
+    #  - ./.docker/env/app.development.env
+    # links:
+      # - postgres
+    environment:
+      - PGHOST=postgres
+      - PGDATABASE=perfect-test
+      - PGUSER=julian
+      - PGPASSWORD=123456
+    networks:
+      - perfect-network
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_USER: julian
+      POSTGRES_DB: perfect-test
+    ports:
+      - "5555:5432"
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+    networks:
+      - perfect-network
+
+  redis:
+    container_name: redis
+    image: jules241/redis
+    build:
+      context: .
+      dockerfile: .docker/redis.dev.dockerfile
+    ports:
+      - "6379:6379"
+    volumes:
+      - 'redis:/var/lib/redis'
+    networks:
+      - perfect-network
+    restart: always
+
+volumes:
+  postgres:
+    driver: "local"
+  redis:
+    driver: "local"
+  node_modules:
+    driver: "local"
+
+networks:
+  perfect-network:
+    driver: bridge
