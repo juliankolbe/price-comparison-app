@@ -1,3 +1,3 @@
-#Pharmacy Price Comparison app
+#The Perfect Node Framework
 
-Take excel lists as input from several suppliers and calculate the best price of each product, with and without stock dependency.
+In the works as it is...
