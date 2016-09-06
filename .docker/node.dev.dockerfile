@@ -1,6 +1,6 @@
 FROM node:latest
 
-RUN npm install -g gulp -g bower -g nodemon -g supervisor
+RUN npm install -g gulp -g bower -g nodemon -g supervisor -g node-inspector
 
 # Create app directory
 RUN mkdir -p /usr/src/app

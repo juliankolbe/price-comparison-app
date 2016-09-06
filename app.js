@@ -15,10 +15,12 @@ var express   = require('express'),
     // users     = require('./lib/users')(),
     db        = require('./lib/database'),
     redisClient = require('./lib/redisClient').connect(),
+    testModule = require('./lib/test'),
 //    routes    = require('./routes/router.js'),
     port      = process.env.PORT || 3000,
     passportConfig = require('./lib/auth/passport'),
-    auth      = require('./lib/auth'),
+    // auth      = require('./lib/auth'),
+    authEnc   = require('./lib/authEnc'),
     app       = express();
 
 //*************************************************
@@ -52,13 +54,18 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }));
-passportConfig.init(app);
+
+// passportConfig.init(app);
+authEnc.config.passportConfig.init(app);
 
 //*********************************************************
 //    Temp Routes
 //*********************************************************
+app.use('/test', testModule);
 
-app.use('/auth', auth.auth);
+app.use('/auth', authEnc.controllers.authController);
+
+// app.use('/auth', auth.auth);
 // app.use('/auth', users.auth);
 // app.use('/users', users.securedArea);
 

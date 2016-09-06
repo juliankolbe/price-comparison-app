@@ -11,6 +11,19 @@ var jsFiles = [
   // './config/**/*.js'
 ];
 
+gulp.task('debug', function() {
+  nodemon({
+    execMap: {
+      js: 'node-inspector --web-port 10100 & node --debug'
+    },
+    script: 'app.js',
+    watch: jsFiles,
+    legacyWatch: true,
+    verbose: true
+  }).on('start', ['']);
+});
+
+
 gulp.task('test', function () {
 
     var options = {
@@ -47,4 +60,4 @@ gulp.task('develop', function () {
         });
 });
 
-gulp.task('serve', ['develop']);
+gulp.task('serve', ['debug']);
