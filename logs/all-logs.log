@@ -1,0 +1,15 @@
+{"level":"info","message":"Logging to file","timestamp":"1:26:07 AM"}
+{"level":"info","message":"::ffff:172.18.0.1 - - [07/Sep/2016:01:26:27 +0000] \"GET /auth/profile HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"1:26:27 AM"}
+{"level":"info","message":"Logging to file","timestamp":"1:26:50 AM"}
+{"level":"info","message":"Logging to file","timestamp":"1:27:04 AM"}
+{"level":"info","message":"Logging to file","timestamp":"1:29:47 AM"}
+{"level":"info","message":"Logging to file","timestamp":"1:34:11 AM"}
+{"level":"info","message":"Logging to file","timestamp":"1:40:03 AM"}
+{"level":"info","message":"::ffff:172.18.0.1 - - [07/Sep/2016:01:41:17 +0000] \"POST /auth/login HTTP/1.1\" 302 35 \"-\" \"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"1:41:17 AM"}
+{"level":"info","message":"::ffff:172.18.0.1 - - [07/Sep/2016:01:41:17 +0000] \"GET /auth/profile HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"1:41:17 AM"}
+{"user":"Admin","level":"info","message":"Logging to file","timestamp":"1:42:44 AM"}
+{"user":"Admin","level":"info","message":"Logging to file","timestamp":"1:45:21 AM"}
+{"user":"Admin","level":"info","message":"Logging to file","timestamp":"1:45:39 AM"}
+{"level":"info","message":"::ffff:172.18.0.1 - - [Wed, 07 Sep 2016 01:45:51 GMT] \"POST /auth/login HTTP/1.1\" 302 35 \"-\" \"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"1:45:51 AM"}
+{"level":"info","message":"::ffff:172.18.0.1 - - [Wed, 07 Sep 2016 01:45:51 GMT] \"GET /auth/profile HTTP/1.1\" 200 183 \"-\" \"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36\"\n","timestamp":"1:45:51 AM"}
+{"user":"Admin","level":"info","message":"Logging to file","timestamp":"1:46:11 AM"}

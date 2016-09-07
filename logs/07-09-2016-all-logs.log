@@ -1,0 +1,19 @@
+{"user":"Admin","level":"info","message":"Logging to file","timestamp":"1:56:11 AM"}
+2:00:08 AM - info: Logging to file user=Admin
+2:01:19 AM - info: ::ffff:172.18.0.1 - - [07/Sep/2016:02:01:19 +0000] "POST /auth/login HTTP/1.1" 302 35 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36"
+
+2:01:19 AM - info: ::ffff:172.18.0.1 - - [07/Sep/2016:02:01:19 +0000] "GET /auth/profile HTTP/1.1" 200 183 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36"
+
+2:02:53 AM - info: Logging to file user=Admin
+2:03:17 AM - info: Logging to file user=Admin
+2:06:18 AM - info: Logging to file user=Admin
+2:06:24 AM - info: ::ffff:172.18.0.1 - - [07/Sep/2016:02:06:24 +0000] "POST /auth/login HTTP/1.1" 302 35 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36"
+
+2:06:24 AM - info: ::ffff:172.18.0.1 - - [07/Sep/2016:02:06:24 +0000] "GET /auth/profile HTTP/1.1" 200 183 "-" "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.116 Safari/537.36"
+
+2:07:07 AM - info: Logging to file user=Admin
+2:08:11 AM - info: Logging to file user=Admin
+2:08:34 AM - info: Logging to file user=Admin
+2:09:14 AM - info: Logging to file user=Admin
+2:09:24 AM - info: Logging to file user=Admin
+2:09:50 AM - info: Logging to file user=Admin

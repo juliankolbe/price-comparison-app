@@ -11,6 +11,10 @@ var jsFiles = [
   // './config/**/*.js'
 ];
 
+var ignoreFiles = [
+  './logs/**/.log'
+];
+
 gulp.task('debug', function() {
   nodemon({
     execMap: {
@@ -18,6 +22,7 @@ gulp.task('debug', function() {
     },
     script: 'app.js',
     watch: jsFiles,
+    ignore: ignoreFiles,
     legacyWatch: true,
     verbose: true
   }).on('start', ['']);

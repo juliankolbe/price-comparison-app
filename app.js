@@ -8,19 +8,22 @@ var express   = require('express'),
     RedisStore = require('connect-redis')(session),
     cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
+    morgan     = require('morgan'),
+    winston    = require('winston'),
 
 
 
 //Local Modules
     // users     = require('./lib/users')(),
-    db        = require('./lib/database'),
-    redisClient = require('./lib/redisClient').connect(),
-    testModule = require('./lib/test'),
+    db        = require('_/database'),
+    redisClient = require('_/redisClient').connect(),
+    testModule = require('_/test'),
 //    routes    = require('./routes/router.js'),
     port      = process.env.PORT || 3000,
     passportConfig = require('./lib/auth/passport'),
     // auth      = require('./lib/auth'),
-    authEnc   = require('./lib/authEnc'),
+    authEnc   = require('_/authEnc'),
+    logger    = require('_/logger'),
     app       = express();
 
 //*************************************************
@@ -37,6 +40,12 @@ app.use(express.static(__dirname + '/public'));
 //With Virtual Path
 //
 app.use('/assets', express.static(__dirname + '/public'));
+
+// Logging
+//logger.debug('Overriding \'Express\' logger');
+app.use(require('morgan')('short', {stream: logger.stream}));
+// app.use(morgan('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false})); //TODO: check which is better qs or querystring library
 app.use(cookieParser());
@@ -87,5 +96,5 @@ app.use(function(req, res, next) {
 });
 
 app.listen(port, function (err) {
-    console.log('running server on port: ' + port);
+    logger.info('Runnning server on port: '+port);
 });
