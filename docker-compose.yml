@@ -6,7 +6,7 @@ services:
     image: jules241/node-perfect-1
     build:
       context: .
-      dockerfile: .docker/node.dev.dockerfile
+      dockerfile: .docker/node.development.dockerfile
   #  command: nodemon --debug=6666
     ports:
       - "8080:3000"
@@ -15,11 +15,13 @@ services:
     volumes:
       - .:/usr/src/app
       - 'node_modules:/usr/src/app/node_modules'
+      - 'component_node_modules:/usr/src/app/lib/csvUpload/node_modules'
+      # - '/etc/localtime:/etc/localtime'
     working_dir: /usr/src/app
-    #env_file:
-    #  - ./.docker/env/app.development.env
     # links:
       # - postgres
+    env_file:
+      - ./.docker/env/app.development.env
     environment:
       - PGHOST=postgres
       - PGDATABASE=perfect-test
@@ -32,6 +34,7 @@ services:
     container_name: postgres
     image: postgres
     environment:
+      TZ: 'Europe/Berlin'
       POSTGRES_PASSWORD: 123456
       POSTGRES_USER: julian
       POSTGRES_DB: perfect-test
@@ -45,9 +48,11 @@ services:
   redis:
     container_name: redis
     image: jules241/redis
+    environment:
+      TZ: 'Europe/Berlin'
     build:
       context: .
-      dockerfile: .docker/redis.dev.dockerfile
+      dockerfile: .docker/redis.development.dockerfile
     ports:
       - "6379:6379"
     volumes:
@@ -62,6 +67,8 @@ volumes:
   redis:
     driver: "local"
   node_modules:
+    driver: "local"
+  component_node_modules:
     driver: "local"
 
 networks:

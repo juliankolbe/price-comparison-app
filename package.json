@@ -4,7 +4,7 @@
   "description": "Testing modular app structure",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/mocha/bin/mocha --colors",
     "start": "gulp serve"
   },
   "author": "Julian Kolbe",
@@ -32,7 +32,10 @@
     "winston-daily-rotate-file": "^1.3.0"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "gulp": "^3.9.1",
-    "gulp-nodemon": "^2.1.0"
+    "gulp-nodemon": "^2.1.0",
+    "mocha": "^3.0.2",
+    "sinon": "^1.17.5"
   }
 }

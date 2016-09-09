@@ -24,6 +24,7 @@ var express   = require('express'),
     // auth      = require('./lib/auth'),
     authEnc   = require('_/authEnc'),
     logger    = require('_/logger'),
+    csvUpload = require('_/csvUpload'),
     app       = express();
 
 //*************************************************
@@ -43,8 +44,9 @@ app.use('/assets', express.static(__dirname + '/public'));
 
 // Logging
 //logger.debug('Overriding \'Express\' logger');
-app.use(require('morgan')('short', {stream: logger.stream}));
-// app.use(morgan('dev'));
+
+// 'dev' mode for short output
+app.use(require('morgan')('dev', {stream: logger.stream}));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false})); //TODO: check which is better qs or querystring library
@@ -67,11 +69,13 @@ app.use(session({
 // passportConfig.init(app);
 authEnc.config.passportConfig.init(app);
 
+
 //*********************************************************
 //    Temp Routes
 //*********************************************************
 app.use('/test', testModule);
 
+app.use('/upload', csvUpload.controllers.uploadController);
 app.use('/auth', authEnc.controllers.authController);
 
 // app.use('/auth', auth.auth);
@@ -91,7 +95,7 @@ app.use('/auth', authEnc.controllers.authController);
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
-    res.send('404');
+    res.send('404').status(404);
     //res.render('errors/404', err);
 });
 
