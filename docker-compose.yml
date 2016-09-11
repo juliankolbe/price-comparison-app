@@ -32,9 +32,11 @@ services:
 
   postgres:
     container_name: postgres
-    image: postgres
+    image: jules241/postgres
+    build:
+      context: .
+      dockerfile: .docker/postgres.development.dockerfile
     environment:
-      TZ: 'Europe/Berlin'
       POSTGRES_PASSWORD: 123456
       POSTGRES_USER: julian
       POSTGRES_DB: perfect-test
@@ -48,8 +50,8 @@ services:
   redis:
     container_name: redis
     image: jules241/redis
-    environment:
-      TZ: 'Europe/Berlin'
+  #  environment:
+  #    TZ: 'Europe/Berlin'
     build:
       context: .
       dockerfile: .docker/redis.development.dockerfile
