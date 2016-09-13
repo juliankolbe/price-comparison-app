@@ -102,3 +102,20 @@ app.use(function(req, res, next) {
 app.listen(port, function (err) {
     logger.info('Runnning server on port: '+port);
 });
+
+
+//*********************************************************
+//    Quick and dirty way to detect event loop blocking
+//*********************************************************
+var lastLoop = Date.now();
+
+function monitorEventLoop() {
+    var time = Date.now();
+    if (time - lastLoop > 1000) logger.error('Event loop blocked ' + (time - lastLoop));
+    lastLoop = time;
+    setTimeout(monitorEventLoop, 200);
+}
+
+if (process.env.NODE_ENV === 'development') {
+    monitorEventLoop();
+}
