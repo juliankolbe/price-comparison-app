@@ -3,12 +3,7 @@ var nodemon = require('gulp-nodemon');
 
 var jsFiles = [
   '*.js',
-  // './controllers/**/*.js',
   './lib/**/*.js',
-  // './models/**/*.js',
-  // './routes/**/*.js',
-  // './views/**/*.js',
-  // './config/**/*.js'
 ];
 
 var ignoreFiles = [
@@ -20,7 +15,7 @@ gulp.task('debug', function() {
     execMap: {
       js: 'node-inspector --web-port 10100 & node --debug'
     },
-    script: 'app.js',
+    script: 'server.js',
     watch: jsFiles,
     ignore: ignoreFiles,
     legacyWatch: true,
