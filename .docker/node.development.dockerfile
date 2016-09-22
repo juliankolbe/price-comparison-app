@@ -2,9 +2,9 @@ FROM node:latest
 
 ENV TZ 'Europe/Berlin'
 
-RUN apt-get update && apt-get install -y dos2unix
+#RUN apt-get update && apt-get install -y dos2unix
 
-RUN npm install -g gulp bower nodemon supervisor node-inspector knex tape
+RUN npm install -g gulp bower nodemon supervisor node-inspector knex tape webpack mocha standard
 
 # Create app directory
 RUN mkdir -p /usr/src/app

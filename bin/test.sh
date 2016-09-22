@@ -18,4 +18,6 @@ if [[ $# -eq 0 ]]; then
   files=$(find lib -name '*.tape.js' -print0 | xargs -0)
 fi
 IFS=" "
+# tape ${files} | faucet
 tape ${files} | node_modules/.bin/tap-spec
+# tape ${files} | node_modules/.bin/tap-dot

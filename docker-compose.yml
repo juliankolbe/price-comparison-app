@@ -3,7 +3,7 @@ version: "2"
 services:
   node:
     container_name: node-perfect-1
-    image: jules241/node-perfect-1
+    image: ${DOCKER_ACCT}/node-perfect-1
     build:
       context: .
       dockerfile: .docker/node.development.dockerfile
@@ -15,41 +15,35 @@ services:
     volumes:
       - .:/usr/src/app
       - 'node_modules:/usr/src/app/node_modules'
-      - 'component_node_modules:/usr/src/app/lib/csvUpload/node_modules'
+      - 'csv_upload_node_modules:/usr/src/app/lib/csvUpload/node_modules'
+      - 'client_node_modules:/usr/src/app/lib/client/node_modules'
       # - '/etc/localtime:/etc/localtime'
     working_dir: /usr/src/app
     # links:
       # - postgres
     env_file:
-      - ./.docker/env/app.development.env
-    environment:
-      - PGHOST=postgres
-      - PGDATABASE=perfect-test
-      - PGUSER=julian
-      - PGPASSWORD=123456
+      - ./.docker/env/app.${APP_ENV}.env
     networks:
       - perfect-network
 
   postgres:
     container_name: postgres
-    image: jules241/postgres
+    image: ${DOCKER_ACCT}/postgres
     build:
       context: .
       dockerfile: .docker/postgres.development.dockerfile
-    environment:
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_USER: julian
-      POSTGRES_DB: perfect-test
+    env_file:
+      - ./.docker/env/postgres.${APP_ENV}.env
     ports:
       - "5555:5432"
     volumes:
-      - 'postgres:/var/lib/postgresql/data'
+      - postgres-${APP_ENV}:/var/lib/postgresql/data
     networks:
       - perfect-network
 
   redis:
     container_name: redis
-    image: jules241/redis
+    image: ${DOCKER_ACCT}/redis
   #  environment:
   #    TZ: 'Europe/Berlin'
     build:
@@ -64,13 +58,17 @@ services:
     restart: always
 
 volumes:
-  postgres:
+  postgres-testing:
+    driver: "local"
+  postgres-development:
     driver: "local"
   redis:
     driver: "local"
   node_modules:
     driver: "local"
-  component_node_modules:
+  csv_upload_node_modules:
+    driver: "local"
+  client_node_modules:
     driver: "local"
 
 networks:

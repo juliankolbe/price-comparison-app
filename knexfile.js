@@ -2,6 +2,23 @@
 
 module.exports = {
 
+  testing: {
+    client: 'postgresql',
+    connection: {
+      host: process.env.PGHOST,
+      database: process.env.PGDATABASE,
+      user: process.env.PGUSER,
+      password: process.env.PGPASSWORD
+    },
+    migrations: {
+      tableName: 'knex_migrations'
+    },
+    seeds: {
+      directory: './seeds'
+    },
+    debug: false
+  },
+
   development: {
     client: 'postgresql',
     connection: {

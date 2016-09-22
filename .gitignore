@@ -1,7 +1,19 @@
 node_modules/
 
+env/
+
 .env
 
 tmp/
 
 csvTestFiles/
+
+public/bundle.js
+
+.eslintcache
+
+coverage
+
+.nyc_output
+
+.DS_Store
