@@ -14,9 +14,12 @@
     "axios": "0.14.0",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-dropzone": "^3.6.0",
+    "react-form-data": "^0.2.3",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "superagent-bluebird-promise": "^4.0.0"
   },
   "devDependencies": {
     "babel-core": "^6.5.2",

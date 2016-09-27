@@ -1,4 +1,5 @@
 const React = require('react')
+const { Link } = require('react-router')
 const axios = require('axios')
 const Header = require('./Header')
 const Collection = require('./Collection.jsx')
@@ -51,6 +52,16 @@ const Test = React.createClass({
           </div>
           <input type='submit' value='Download' />
         </form>
+        <div>
+          <Link to='/upload'>
+            Upload
+          </Link>
+        </div>
+        <div>
+          <Link to='/admin'>
+            Admin
+          </Link>
+        </div>
       </div>
     )
   }
