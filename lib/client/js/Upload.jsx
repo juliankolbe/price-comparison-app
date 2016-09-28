@@ -22,6 +22,8 @@ const Upload = React.createClass({
   onFormChange (e) {
     let formData = new FormData()
     let files = _.values(e.target.files)
+    console.log(e.target.files)
+    console.log(e.target.files[0])
     files.forEach((file) => {
       formData.append('csvFiles', file)
     })
