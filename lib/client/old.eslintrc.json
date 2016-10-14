@@ -1,0 +1,22 @@
+{
+  "extends": ["standard", "standard-react"],
+  "env": {
+    "browser": "1"
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": "6",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": "1"
+    }
+  },
+  "globals": {
+    "__DEVELOPMENT__": "1",
+    "__CLIENT__": "1",
+    "__SERVER__": "1",
+    "__DISABLE_SSR__": "1",
+    "__DEVTOOLS__": "1",
+    "socket": "1",
+    "webpackIsomorphicTools": "1"
+  }
+}

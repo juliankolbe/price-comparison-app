@@ -6,7 +6,7 @@ const Collection = require('./Collection.jsx')
 const { arrayOf, object, func, any } = React.PropTypes
 const { connector } = require('./Store')
 
-const Test = React.createClass({
+const Home = React.createClass({
   propTypes: {
     setCollectionSelected: func,
     setCollections: func,
@@ -14,7 +14,7 @@ const Test = React.createClass({
     collections: arrayOf(object)
   },
   componentDidMount () {
-    axios.get('http://localhost:8080/api/test')
+    axios.get('http://localhost:8080/api/collection/all')
       .then((response) => {
         this.props.setCollections(response.data)
       })
@@ -67,4 +67,4 @@ const Test = React.createClass({
   }
 })
 
-module.exports = connector(Test)
+module.exports = connector(Home)
