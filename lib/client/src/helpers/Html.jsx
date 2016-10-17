@@ -45,6 +45,7 @@ export default class Html extends Component {
             require('../containers/Home/Home.scss')._style +
             require('../containers/Admin/Admin.scss')._style +
             require('../containers/Test/Test.scss')._style
+            // require('react-select/dist/react-select.css')
           }}/> : null }
         </head>
         <body>

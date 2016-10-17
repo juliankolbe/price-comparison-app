@@ -1,3 +1,5 @@
 export Collection from './Collection.jsx'
 export Header from './Header.jsx'
 export Supplier from './Supplier.jsx'
+export FileUpload from './FileUpload/FileUpload.jsx'
+export CollectionUploadForm from './CollectionUploadForm/CollectionUploadForm.jsx'

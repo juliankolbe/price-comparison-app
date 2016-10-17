@@ -1,47 +1,69 @@
 import React, {Component, PropTypes} from 'react'
 const { object, func } = PropTypes
-// import { Link } from 'react-router'
 import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 
-import * as duck from '../redux/modules/upload'
-import axios from 'axios'
-import _ from 'lodash' // maybe import lodash as _
+import * as duck from '../redux/modules/home'
+// import * as duck from '../redux/modules/upload'
 import Helmet from 'react-helmet'
 
+import { CollectionUploadForm } from '../components'
+import * as supplierDuck from '../redux/modules/supplier'
+import { asyncConnect } from 'redux-connect'
+//
+// @asyncConnect([{
+//   // deferred: false,
+//   promise: ({store}) => {
+//     return Promise.resolve(0)
+//   }
+// }])
+@asyncConnect([{
+  // deferred: true,
+  promise: ({store: {dispatch, getState}}) => {
+    if (!supplierDuck.isLoaded(getState())) {
+      return dispatch(supplierDuck.load())
+    }
+  }
+}])
 @connect(
   state => ({fileFormData: state.upload.data}),
   dispatch => bindActionCreators(duck, dispatch)
 )
 export default class Upload extends Component {
-  handleSubmit = (e) => {
-    e.preventDefault()
-    axios({
-      method: 'post',
-      url: 'http://localhost:8080/api/upload/suppliermaster',
-      data: this.props.fileFormData
-    })
-  }
-  onFormChange = (e) => {
-    let formData = new window.FormData() // explicit browser global used: 'window.FormData()'
-    let files = _.values(e.target.files)
-    console.log(e.target.files)
-    console.log(e.target.files[0])
-    files.forEach((file) => {
-      formData.append('csvFiles', file)
-    })
-    this.props.setFileFormData(formData)
-    console.log(files)
-    console.log(formData)
-  }
+  // handleSubmit = (e) => {
+  //   e.preventDefault()
+  //   axios({
+  //     method: 'post',
+  //     url: 'http://localhost:8080/api/upload/suppliermaster',
+  //     data: this.props.fileFormData
+  //   })
+  // }
+  // onFormChange = (e) => {
+  //   let formData = new window.FormData() // explicit browser global used: 'window.FormData()'
+  //   let files = _.values(e.target.files)
+  //   console.log(e.target.files)
+  //   console.log(e.target.files[0])
+  //   files.forEach((file) => {
+  //     formData.append('csvFiles', file)
+  //   })
+  //   this.props.setFileFormData(formData)
+  //   console.log(files)
+  //   console.log(formData)
+  // }
   render () {
     return (
       <div className='container'>
         <Helmet title='Upload' />
-        <form className='form' ref='uploadForm' onSubmit={this.handleSubmit} encType='multipart/form-data' onChange={this.onFormChange}>
+        {/* <form className='form' ref='uploadForm' onSubmit={this.handleSubmit} encType='multipart/form-data' onChange={this.onFormChange}>
           <input type='file' id='csvFiles' name='csvFiles' multiple='multiple' accept='.csv' />
           <input type='submit' value='Upload' />
-        </form>
+
+        </form> */}
+        {/* <form>
+          <FileUpload fieldName='files' />
+          <button type="submit">Submit</button>
+        </form> */}
+        <CollectionUploadForm />
       </div>
     )
   }
@@ -49,5 +71,6 @@ export default class Upload extends Component {
 
 Upload.propTypes = {
   setFileFormData: func,
-  fileFormData: object
+  fileFormData: object,
+  store: object
 }
