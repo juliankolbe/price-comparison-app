@@ -10,6 +10,7 @@ import home from './home.jsx'
 import fileUpload from './fileUpload.jsx'
 import supplier from './supplier'
 import collectionUploadForm from './collectionUploadForm'
+import supplierMasterUploadForm from './supplierMasterUploadForm'
 
 // import multireducer from 'multireducer';
 // import { routerReducer } from 'react-router-redux';
@@ -20,6 +21,7 @@ export default combineReducers({
   reduxAsyncConnect,
   form,
 
+  supplierMasterUploadForm,
   collectionUploadForm,
   fileUpload,
   supplier,

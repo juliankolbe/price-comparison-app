@@ -8,7 +8,7 @@ exports.up = function (knex, Promise) {
     tbl.increments('id')
 
     // FK
-    tbl.integer('user_id').notNullable().references('id').inTable('user')
+    tbl.integer('user_id').references('id').inTable('user')
 
     // Fields
     tbl.integer('number_of_lists').notNullable()
@@ -29,17 +29,21 @@ exports.up = function (knex, Promise) {
     tbl.integer('price_list_collection_id').notNullable().references('id').inTable('price_list_collection')
 
     // Fields
-    tbl.integer('number_of_products').notNullable()
-    tbl.boolean('bonus')
-    tbl.boolean('stock')
-    tbl.boolean('retail_price')
+    tbl.date('dated_at')
+    tbl.integer('number_of_products')
+    tbl.string('file_name')
+    tbl.boolean('has_bonus')
+    tbl.boolean('has_triple_bonus')
+    tbl.boolean('has_stock')
+    tbl.boolean('has_retail_price')
+    tbl.boolean('has_expiry_date')
 
     // Timestamps
     tbl.timestamp('created_at').defaultTo(knex.fn.now())
     tbl.timestamp('updated_at').defaultTo(knex.fn.now())
   })
 
-  // <supplier_product_name>
+  // <price_list_data>
   .createTable('price_list_data', function (tbl) {
     // PK
     tbl.increments('id')
@@ -48,27 +52,35 @@ exports.up = function (knex, Promise) {
     tbl.integer('supplier_product_name_id').notNullable().references('id').inTable('supplier_product_name')
     tbl.integer('price_list_id').notNullable().references('id').inTable('price_list')
     tbl.integer('price_list_collection_id').notNullable().references('id').inTable('price_list_collection')
+    tbl.integer('supplier_id').notNullable().references('id').inTable('supplier')
+
     // tbl.integer('supplier_id').notNullable().references('id').inTable('supplier');
     // tbl.integer('user_id').notNullable().references('id').inTable('user');
 
     // Fields
       // Not Nullable
-    tbl.float('whole_sale_price').notNullable()
-    tbl.float('retail_price').notNullable()
-    tbl.string('bonus_scheme').notNullable()
-    tbl.date('expiry_date').notNullable()
+    tbl.float('whole_sale_price').notNullable().index()
 
       // Nullable
-    tbl.string('item_code', 255)
+    // tbl.string('item_code', 255)
     tbl.string('packing')
-    tbl.integer('stock')
+    tbl.integer('stock').index()
+    tbl.float('retail_price')
+    tbl.string('bonus')
+    tbl.string('bonus_1')
+    tbl.string('bonus_2')
+    tbl.string('bonus_3')
+    tbl.date('expiry_date').index()
+    tbl.string('agency_id')
+    tbl.string('serial_number')
+    tbl.string('moh_percentage')
 
     // Redundant fields
     // tbl.string('master_product_name');
     // tbl.string('supplier_name');
     // tbl.string('user_name');
 
-    // Timestamps
+    // Timestamps TODO: use proper timezone
     tbl.timestamp('created_at').defaultTo(knex.fn.now())
     tbl.timestamp('updated_at').defaultTo(knex.fn.now())
   })

@@ -7,7 +7,7 @@ import * as duck from '../redux/modules/home'
 // import * as duck from '../redux/modules/upload'
 import Helmet from 'react-helmet'
 
-import { CollectionUploadForm } from '../components'
+import { CollectionUploadForm, SupplierMasterUploadForm } from '../components'
 import * as supplierDuck from '../redux/modules/supplier'
 import { asyncConnect } from 'redux-connect'
 //
@@ -63,7 +63,14 @@ export default class Upload extends Component {
           <FileUpload fieldName='files' />
           <button type="submit">Submit</button>
         </form> */}
+        <div>
+          {'Collection Upload'}
+        </div>
         <CollectionUploadForm />
+        <div>
+          {'Supplier Upload Form'}
+        </div>
+        <SupplierMasterUploadForm />
       </div>
     )
   }
