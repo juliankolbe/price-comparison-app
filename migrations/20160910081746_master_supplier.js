@@ -8,7 +8,7 @@ exports.up = function (knex, Promise) {
     tbl.increments('id')
 
     // UQ
-    tbl.string('name', 255).notNullable().unique('uq_supplier')
+    tbl.string('name', 255).notNullable().unique('uq_supplier').index()
 
     // Timestamps
     tbl.timestamp('created_at').defaultTo(knex.fn.now())
@@ -32,8 +32,8 @@ exports.up = function (knex, Promise) {
     tbl.increments('id')
 
     // FK
-    tbl.integer('master_product_name_id').notNullable().references('id').inTable('master_product_name')
-    tbl.integer('supplier_id').notNullable().references('id').inTable('supplier')
+    tbl.integer('master_product_name_id').notNullable().references('id').inTable('master_product_name').index()
+    tbl.integer('supplier_id').notNullable().references('id').inTable('supplier').index()
 
     // Fields
     tbl.string('supplier_product_name', 255).notNullable().index()

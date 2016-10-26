@@ -8,7 +8,7 @@ exports.up = function (knex, Promise) {
     tbl.increments('id')
 
     // FK
-    tbl.integer('user_id').references('id').inTable('user')
+    tbl.integer('user_id').references('id').inTable('user').index()
 
     // Fields
     tbl.integer('number_of_lists').notNullable()
@@ -25,8 +25,8 @@ exports.up = function (knex, Promise) {
     tbl.increments('id')
 
     // FK
-    tbl.integer('supplier_id').notNullable().references('id').inTable('supplier')
-    tbl.integer('price_list_collection_id').notNullable().references('id').inTable('price_list_collection')
+    tbl.integer('supplier_id').notNullable().references('id').inTable('supplier').index()
+    tbl.integer('price_list_collection_id').notNullable().references('id').inTable('price_list_collection').index()
 
     // Fields
     tbl.date('dated_at')
@@ -49,10 +49,11 @@ exports.up = function (knex, Promise) {
     tbl.increments('id')
 
     // FK
-    tbl.integer('supplier_product_name_id').notNullable().references('id').inTable('supplier_product_name')
-    tbl.integer('price_list_id').notNullable().references('id').inTable('price_list')
-    tbl.integer('price_list_collection_id').notNullable().references('id').inTable('price_list_collection')
-    tbl.integer('supplier_id').notNullable().references('id').inTable('supplier')
+    tbl.integer('supplier_product_name_id').notNullable().references('id').inTable('supplier_product_name').index()
+    tbl.integer('master_product_name_id').notNullable().references('id').inTable('master_product_name').index()
+    tbl.integer('price_list_id').notNullable().references('id').inTable('price_list').index()
+    tbl.integer('price_list_collection_id').notNullable().references('id').inTable('price_list_collection').index()
+    tbl.integer('supplier_id').notNullable().references('id').inTable('supplier').index()
 
     // tbl.integer('supplier_id').notNullable().references('id').inTable('supplier');
     // tbl.integer('user_id').notNullable().references('id').inTable('user');
