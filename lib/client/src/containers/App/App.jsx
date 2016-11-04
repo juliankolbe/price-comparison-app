@@ -9,8 +9,11 @@ import Helmet from 'react-helmet'
 // import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth'
 // import { push } from 'react-router-redux'
 import config from '../../config'
-// import { asyncConnect } from 'redux-async-connect'
+import { asyncConnect } from 'redux-connect'
 
+@asyncConnect([{
+  promise: () => Promise.resolve()
+}])
 // @asyncConnect([{
 //   promise: ({store: {dispatch, getState}}) => {
 //     const promises = [];
@@ -62,13 +65,13 @@ export default class App extends Component {
             <Navbar.Toggle />
           </Navbar.Header>
 
-          <Navbar.Collapse eventKey={0}>
+          <Navbar.Collapse >
             <Nav navbar>
-              <LinkContainer to='/admin'>
-                <NavItem eventKey={2}>Admin</NavItem>
-              </LinkContainer>
               <LinkContainer to='/upload'>
-                <NavItem eventKey={3}>Upload</NavItem>
+                <NavItem>Upload</NavItem>
+              </LinkContainer>
+              <LinkContainer to='/admin'>
+                <NavItem>Admin</NavItem>
               </LinkContainer>
             </Nav>
           </Navbar.Collapse>

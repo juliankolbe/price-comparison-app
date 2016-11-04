@@ -7,14 +7,21 @@ const REMOVE_FILE_DROPPED = 'price-comparison/collectionUploadForm/REMOVE_FILE_D
 const UPLOAD = 'price-comparison/collectionUploadForm/UPLOAD'
 const UPLOAD_SUCCESS = 'price-comparison/collectionUploadForm/UPLOAD_SUCCESS'
 const UPLOAD_FAIL = 'price-comparison/collectionUploadForm/UPLOAD_FAIL'
+const SET_DATED_AT = 'price-comparison/collectionUploadForm/SET_DATED_AT'
 
 const initialState = {
   filesDropped: [],
-  uploaded: false
+  uploaded: false,
+  datedAt: null
 }
 
 export default function reducer (state = initialState, action = {}) {
   switch (action.type) {
+    case SET_DATED_AT:
+      return {
+        ...state,
+        datedAt: action.date
+      }
     case ADD_FILE_DROPPED:
       return {
         ...state,
@@ -74,6 +81,13 @@ export function addFileDropped (fileDropped) {
   }
 }
 
+export function setDatedAt (date) {
+  return {
+    type: SET_DATED_AT,
+    date: date
+  }
+}
+
 export function removeFileDropped (removeId) {
   return {
     type: REMOVE_FILE_DROPPED,
@@ -83,7 +97,11 @@ export function removeFileDropped (removeId) {
 
 // Selectors
 const getFilesDropped = state => state.filesDropped
+const isUploading = state => state.uploading
+const getDatedAt = state => state.datedAt
 // Reselect memoised selector
 export const selector = createStructuredSelector({
-  getFilesDropped
+  getFilesDropped,
+  isUploading,
+  getDatedAt
 })

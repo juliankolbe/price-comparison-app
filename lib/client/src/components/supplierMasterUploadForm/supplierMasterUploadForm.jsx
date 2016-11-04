@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux'
 // import * as supplierDuck from '../../redux/modules/supplier'
 import * as duck from '../../redux/modules/supplierMasterUploadForm'
 
-import DropzoneInput from '../FileUpload/DropzoneInput.jsx'
+import DropzoneInput from '../DropzoneInput/DropzoneInput.jsx'
 // import SelectionComponent from '../SelectionComponent/SelectionComponent.jsx'
 
 // @asyncConnect([{

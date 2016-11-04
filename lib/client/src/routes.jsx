@@ -11,6 +11,10 @@ import {
     NotFound
   } from './containers'
 
+// Material-ui uses on tap as its faster than onclick (only for touch really but whatever)
+const injectTapEventPlugin = require('react-tap-event-plugin')
+injectTapEventPlugin()
+
 export default (store) => {
   // const requireLogin = (nextState, replace, cb) => {
   //   function checkAuth() {

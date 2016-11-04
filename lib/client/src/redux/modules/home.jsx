@@ -4,6 +4,9 @@ const SELECTED = 'price-comparison/home/SELECTED'
 const LOAD = 'price-comparison/home/LOAD'
 const LOAD_SUCCESS = 'price-comparison/home/LOAD_SUCCESS'
 const LOAD_FAIL = 'price-comparison/home/LOAD_FAIL'
+const DOWNLOAD_PC = 'price-comparison/home/DOWNLOAD_PC'
+const DOWNLOAD_PC_SUCCESS = 'price-comparison/home/DOWNLOAD_PC_SUCCESS'
+const DOWNLOAD_PC_FAIL = 'price-comparison/home/DOWNLOAD_PC_FAIL'
 
 // const EDIT_START = 'redux-example/widgets/EDIT_START';
 // const EDIT_STOP = 'redux-example/widgets/EDIT_STOP';
@@ -45,6 +48,25 @@ export default function reducer (state = initialState, action = {}) {
         data: null,
         error: action.error
       }
+    case DOWNLOAD_PC:
+      return {
+        ...state,
+        downloading: true
+      }
+    case DOWNLOAD_PC_SUCCESS:
+      return {
+        ...state,
+        downloading: false,
+        downloaded: true,
+        downloadError: null
+      }
+    case DOWNLOAD_PC_FAIL:
+      return {
+        ...state,
+        downloading: false,
+        downloaded: false,
+        downloadError: action.error
+      }
     default:
       return state
   }
@@ -60,6 +82,13 @@ export function load () {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => client.get('/collection/all')
+  }
+}
+
+export function downloadPC ({ collectionId, stockReqId, afterNegId }) {
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    promise: (client) => client.get(`/priceComparison/${collectionId}${stockReqId ? '/' + stockReqId : ''}/${afterNegId ? '/' + afterNegId : ''}`)
   }
 }
 

@@ -42,8 +42,11 @@ export default class Html extends Component {
           { Object.keys(assets.styles).length === 0 ? <style dangerouslySetInnerHTML={{__html:
             require('../theme/bootstrap.config.js') +
             require('../containers/App/App.scss')._style +
-            require('../containers/Home/Home.scss')._style +
+            // require('../containers/Home/Home.scss')._style +
             require('../containers/Admin/Admin.scss')._style +
+            require('../components/PcDownloadForm/PcDownloadForm.scss')._style +
+            require('../components/CollectionUploadForm/CollectionUploadForm.scss')._style +
+            require('../components/DropzoneInput/DropzoneInput.scss')._style +
             require('../containers/Test/Test.scss')._style
             // require('react-select/dist/react-select.css')
           }}/> : null }

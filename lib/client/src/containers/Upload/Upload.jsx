@@ -3,13 +3,15 @@ const { object, func } = PropTypes
 import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 
-import * as duck from '../redux/modules/home'
+import * as duck from '../../redux/modules/home'
 // import * as duck from '../redux/modules/upload'
 import Helmet from 'react-helmet'
 
-import { CollectionUploadForm, SupplierMasterUploadForm } from '../components'
-import * as supplierDuck from '../redux/modules/supplier'
+import { CollectionUploadForm } from '../../components'
+import * as supplierDuck from '../../redux/modules/supplier'
 import { asyncConnect } from 'redux-connect'
+
+import { Grid } from 'react-bootstrap'
 //
 // @asyncConnect([{
 //   // deferred: false,
@@ -63,14 +65,13 @@ export default class Upload extends Component {
           <FileUpload fieldName='files' />
           <button type="submit">Submit</button>
         </form> */}
-        <div>
-          {'Collection Upload'}
-        </div>
-        <CollectionUploadForm />
-        <div>
+        <Grid>
+          <CollectionUploadForm />
+        </Grid>
+        {/* <div>
           {'Supplier Upload Form'}
         </div>
-        <SupplierMasterUploadForm />
+        <SupplierMasterUploadForm /> */}
       </div>
     )
   }

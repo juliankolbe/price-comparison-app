@@ -11,6 +11,7 @@ import fileUpload from './fileUpload.jsx'
 import supplier from './supplier'
 import collectionUploadForm from './collectionUploadForm'
 import supplierMasterUploadForm from './supplierMasterUploadForm'
+import pcDownloadForm from './pcDownloadForm'
 
 // import multireducer from 'multireducer';
 // import { routerReducer } from 'react-router-redux';
@@ -21,6 +22,7 @@ export default combineReducers({
   reduxAsyncConnect,
   form,
 
+  pcDownloadForm,
   supplierMasterUploadForm,
   collectionUploadForm,
   fileUpload,
