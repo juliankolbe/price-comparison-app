@@ -52,7 +52,7 @@ export default class Admin extends Component {
     require('./Admin.scss')
     const { getSupplierNameInput, getSuppliers } = this.props
     let suppliers
-    if (getSuppliers) {
+    if (getSuppliers && getSuppliers instanceof Array) {
       suppliers = getSuppliers.map((supplier) => <Supplier {...supplier} key={supplier.id} />)
     }
     return (

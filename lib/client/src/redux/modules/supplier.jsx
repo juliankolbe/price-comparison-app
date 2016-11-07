@@ -1,4 +1,5 @@
 import { createStructuredSelector } from 'reselect'
+import { LOCATION_CHANGE } from 'react-router-redux'
 
 // Action Types
 // const SET_SUPPLIERS = 'price-comparison/admin/SET_SUPPLIERS'
@@ -36,6 +37,8 @@ export default function reducer (state = initialState, action = {}) {
         data: null,
         error: action.error
       }
+    case LOCATION_CHANGE:
+      return initialState
     default:
       return state
   }

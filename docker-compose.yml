@@ -2,16 +2,19 @@ version: "2"
 
 services:
   node:
-    container_name: node-perfect-1
-    image: ${DOCKER_ACCT}/node-perfect-1
+    container_name: node-pc-1
+    image: ${DOCKER_ACCT}/node-pc-1
     build:
       context: .
       dockerfile: .docker/node.development.dockerfile
   #  command: nodemon --debug=6666
     ports:
       - "8080:3000"
+      # gulp nonsense
       - "5000:5000"
+      # node-inspector
       - "10100:10100"
+      # webpack dev server
       - "3001:3001"
     volumes:
       - .:/usr/src/app
@@ -25,7 +28,7 @@ services:
     env_file:
       - ./.docker/env/app.${APP_ENV}.env
     networks:
-      - perfect-network
+      - pc-network
 
   postgres:
     container_name: postgres
@@ -40,23 +43,23 @@ services:
     volumes:
       - postgres-${APP_ENV}:/var/lib/postgresql/data
     networks:
-      - perfect-network
+      - pc-network
 
-  redis:
-    container_name: redis
-    image: ${DOCKER_ACCT}/redis
-  #  environment:
-  #    TZ: 'Europe/Berlin'
-    build:
-      context: .
-      dockerfile: .docker/redis.development.dockerfile
-    ports:
-      - "6379:6379"
-    volumes:
-      - 'redis:/var/lib/redis'
-    networks:
-      - perfect-network
-    restart: always
+  # redis:
+  #   container_name: redis
+  #   image: ${DOCKER_ACCT}/redis
+  # #  environment:
+  # #    TZ: 'Europe/Berlin'
+  #   build:
+  #     context: .
+  #     dockerfile: .docker/redis.development.dockerfile
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - 'redis:/var/lib/redis'
+  #   networks:
+  #     - pc-network
+  #   restart: always
 
 volumes:
   postgres-testing:
@@ -73,5 +76,5 @@ volumes:
     driver: "local"
 
 networks:
-  perfect-network:
+  pc-network:
     driver: bridge
