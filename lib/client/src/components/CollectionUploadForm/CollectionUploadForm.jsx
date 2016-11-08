@@ -1,5 +1,5 @@
 import React, { Component, PropTypes, } from 'react'
-import { reduxForm, Field } from 'redux-form'
+import { reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 // import { asyncConnect } from 'redux-connect'
 import { bindActionCreators } from 'redux'
@@ -8,7 +8,8 @@ import * as supplierDuck from '../../redux/modules/supplier'
 import * as duck from '../../redux/modules/collectionUploadForm'
 
 import DropzoneInput from '../DropzoneInput/DropzoneInput.jsx'
-import SelectionComponent from '../SelectionComponent/SelectionComponent.jsx'
+// import SelectionComponent from '../SelectionComponent/SelectionComponent.jsx'
+import SelectWrapper from '../SelectWrapper/SelectWrapper.jsx'
 import ActionDeleteIconWrapper from '../ActionDeleteIconWrapper/ActionDeleteIconWrapper.jsx'
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table'
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar'
@@ -72,28 +73,37 @@ export default class CollectionUploadForm extends Component {
     store: PropTypes.object,
     isUploading: PropTypes.bool,
     setDatedAt: PropTypes.func,
-    getDatedAt: PropTypes.any
+    getDatedAt: PropTypes.any,
+    setFileSupplier: PropTypes.func
   }
 
   createFileFormData = (data) => {
-    let files = this.props.getFilesDropped
+    let body = new FormData()
+    let fileObjs = this.props.getFilesDropped
     let metaData = {}
-
-    // Create object arraning formdata with its associated files
-    let supplierSelects = Object.keys(data).filter((e) => /^supplierForList\d+$/.test(e))
-    supplierSelects.forEach((selectKey) => {
-      let fileKey = selectKey.match(/(\d+)$/)[1]
-      metaData[files[fileKey].name] = {
-        supplier: data[selectKey].value
+    fileObjs.forEach(fileObj => {
+      metaData[fileObj.name] = {
+        supplier: fileObj.supplier
       }
+      body.append('csvFiles', fileObj.file)
     })
+    // // Create object arraning formdata with its associated files
+    // let supplierSelects = Object.keys(data).filter((e) => /^supplierForList\d+$/.test(e))
+    // supplierSelects.forEach((selectKey) => {
+    //   let fileKey = selectKey.match(/(\d+)$/)[1]
+    //   metaData[files[fileKey].name] = {
+    //     supplier: data[selectKey].value
+    //   }
+    // })
+
     // Add collection dated at
     metaData['datedAt'] = this.props.getDatedAt
-    let body = new FormData()
-    // Add all files to the main formData object under the same key
-    files.forEach((file) => {
-      body.append('csvFiles', file)
-    })
+
+    // // Add all files to the main formData object under the same key
+    // files.forEach((file) => {
+    //   body.append('csvFiles', file)
+    // })
+
     // Transform file associated form data back to JSON and add it to the main formData object
     body.append('data', JSON.stringify(metaData))
 
@@ -109,7 +119,8 @@ export default class CollectionUploadForm extends Component {
   }
 
   onFileDropped = (filesToUpload, e) => {
-    this.props.addFileDropped(filesToUpload)
+    let filesToFileHash = filesToUpload.map(file => ({ file: file, name: file.name, supplier: undefined }))
+    this.props.addFileDropped(filesToFileHash)
   }
 
   onDateAtChanged = (event, date) => {
@@ -123,6 +134,10 @@ export default class CollectionUploadForm extends Component {
 
   onActionDeleteIconWrapperClick = (id) => {
     this.props.removeFileDropped(id)
+  }
+
+  onSelectWrapperChange = (id, value) => {
+    this.props.setFileSupplier(id, value)
   }
 
   render () {
@@ -140,7 +155,18 @@ export default class CollectionUploadForm extends Component {
             {file.name}
           </TableRowColumn>
           <TableRowColumn style={inlineStyles.tableRowColumn}>
-            <Field component={SelectionComponent} name={`supplierForList${i}`} options={options} label='Supplier' placeholder='Supplier...' />
+            {/* <Field component={SelectionComponent} name={`supplierForList${i}`} options={options} label='Supplier' placeholder='Supplier...' /> */}
+            {/* <SelectionComponent name={`supplierForList${i}`} options={options} label='Supplier' placeholder='Supplier...' /> */}
+            {/* <Select
+              options={options}
+              // {...input}
+              // onBlur={blurFunction}
+              value={file.supplier}
+              placeholder='Supplier...'
+              onChange={this.onSelectChange}
+              arrayIndex={i}
+            /> */}
+            <SelectWrapper name={`supplierForList${i}`} options={options} value={file.supplier} label='Supplier' placeholder='Supplier...' onChange={this.onSelectWrapperChange} arrayIndex={i} />
           </TableRowColumn>
           <TableRowColumn>
             {/* <button id={i} onClick={this.onRemoveClick}>Remove</button>
