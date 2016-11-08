@@ -33,7 +33,7 @@ const inlineStyles = {
   },
   circProgress: {
     float: 'right',
-    'margin': '0 20px 0 0'
+    'margin': '8px 45px 0 0'
   },
   datePicker: {
     'marginLeft': '10px'
