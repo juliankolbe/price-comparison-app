@@ -8,6 +8,7 @@ const UPLOAD = 'price-comparison/collectionUploadForm/UPLOAD'
 const UPLOAD_SUCCESS = 'price-comparison/collectionUploadForm/UPLOAD_SUCCESS'
 const UPLOAD_FAIL = 'price-comparison/collectionUploadForm/UPLOAD_FAIL'
 const SET_DATED_AT = 'price-comparison/collectionUploadForm/SET_DATED_AT'
+const SET_FILE_SUPPLIER = 'price-comparison/collectionUploadForm/SET_FILE_SUPPLIER'
 
 const initialState = {
   filesDropped: [],
@@ -34,6 +35,11 @@ export default function reducer (state = initialState, action = {}) {
           ...state.filesDropped.slice(0, action.removeId),
           ...state.filesDropped.slice(action.removeId + 1)
         ]
+      }
+    case SET_FILE_SUPPLIER:
+      return {
+        ...state,
+        filesDropped: state.filesDropped.map((file, i) => action.id === i ? { ...file, supplier: action.supplier } : { ...file })
       }
     case UPLOAD:
       return {
@@ -92,6 +98,14 @@ export function removeFileDropped (removeId) {
   return {
     type: REMOVE_FILE_DROPPED,
     removeId: removeId
+  }
+}
+
+export function setFileSupplier (id, supplier) {
+  return {
+    type: SET_FILE_SUPPLIER,
+    id: id,
+    supplier: supplier
   }
 }
 
