@@ -1,5 +1,5 @@
 import { createStructuredSelector } from 'reselect'
-import { LOCATION_CHANGE } from 'react-router-redux'
+// import { LOCATION_CHANGE } from 'react-router-redux'
 
 // Action Types
 // const SET_SUPPLIERS = 'price-comparison/admin/SET_SUPPLIERS'
@@ -7,6 +7,7 @@ import { LOCATION_CHANGE } from 'react-router-redux'
 const LOAD = 'price-comparison/supplier/LOAD'
 const LOAD_SUCCESS = 'price-comparison/supplier/LOAD_SUCCESS'
 const LOAD_FAIL = 'price-comparison/supplier/LOAD_FAIL'
+const RESET_SUPPLIER_LOADED = 'price-comparison/supplier/RESET_SUPPLIER_LOADED'
 
 // Initional State
 const initialState = {
@@ -37,8 +38,12 @@ export default function reducer (state = initialState, action = {}) {
         data: null,
         error: action.error
       }
-    case LOCATION_CHANGE:
-      return initialState
+    case RESET_SUPPLIER_LOADED: {
+      return {
+        ...state,
+        loaded: false
+      }
+    }
     default:
       return state
   }
@@ -54,6 +59,12 @@ export function load () {
   return {
     types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
     promise: (client) => client.get('/supplier/all')
+  }
+}
+// Action Creators
+export function resetSupplierLoaded () {
+  return {
+    type: RESET_SUPPLIER_LOADED
   }
 }
 

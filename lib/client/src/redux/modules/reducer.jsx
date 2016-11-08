@@ -7,7 +7,7 @@ import {reducer as form} from 'redux-form'
 import admin from './admin.jsx'
 import upload from './upload'
 import home from './home.jsx'
-import fileUpload from './fileUpload.jsx'
+// import fileUpload from './fileUpload.jsx'
 import supplier from './supplier'
 import collectionUploadForm from './collectionUploadForm'
 import supplierMasterUploadForm from './supplierMasterUploadForm'
@@ -25,7 +25,7 @@ export default combineReducers({
   pcDownloadForm,
   supplierMasterUploadForm,
   collectionUploadForm,
-  fileUpload,
+  // fileUpload,
   supplier,
   admin,
   upload,

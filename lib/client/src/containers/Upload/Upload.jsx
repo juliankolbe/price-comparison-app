@@ -3,7 +3,7 @@ const { object, func } = PropTypes
 import {bindActionCreators} from 'redux'
 import { connect } from 'react-redux'
 
-import * as duck from '../../redux/modules/home'
+// import * as duck from '../../redux/modules/home'
 // import * as duck from '../redux/modules/upload'
 import Helmet from 'react-helmet'
 
@@ -29,9 +29,14 @@ import { Grid } from 'react-bootstrap'
 }])
 @connect(
   state => ({fileFormData: state.upload.data}),
-  dispatch => bindActionCreators(duck, dispatch)
+  dispatch => bindActionCreators(
+    Object.assign({}, supplierDuck)
+    , dispatch)
 )
 export default class Upload extends Component {
+  static propTypes = {
+    resetSupplierLoaded: PropTypes.func.isRequired
+  }
   // handleSubmit = (e) => {
   //   e.preventDefault()
   //   axios({
@@ -52,6 +57,10 @@ export default class Upload extends Component {
   //   console.log(files)
   //   console.log(formData)
   // }
+  componentDidMount = () => {
+    this.props.resetSupplierLoaded()
+  }
+
   render () {
     return (
       <div className='container'>
