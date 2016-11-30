@@ -20,6 +20,10 @@ export default class ApiClient {
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path))
 
+        if (window.localStorage.token) {
+          request.set('Authorization', window.localStorage.token)
+        }
+
         if (params) {
           request.query(params)
         }

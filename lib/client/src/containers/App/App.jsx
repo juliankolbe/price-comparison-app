@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { IndexLink } from 'react-router'
 import { LinkContainer } from 'react-router-bootstrap'
 import Navbar from 'react-bootstrap/lib/Navbar'
@@ -10,6 +11,8 @@ import Helmet from 'react-helmet'
 // import { push } from 'react-router-redux'
 import config from '../../config'
 import { asyncConnect } from 'redux-connect'
+
+import * as authDuck from '../../redux/modules/auth'
 
 @asyncConnect([{
   promise: () => Promise.resolve()
@@ -28,24 +31,36 @@ import { asyncConnect } from 'redux-connect'
 //     return Promise.all(promises);
 //   }
 // }])
-// @connect(
-//   state => ({user: state.auth.user}),
-//   {logout, pushState: push})
+@connect(
+  state => (authDuck.selector(state.auth)),
+  dispatch => bindActionCreators(Object.assign({}, authDuck)
+    , dispatch)
+)
 export default class App extends Component {
-  // componentWillReceiveProps (nextProps) {
-  //   if (!this.props.user && nextProps.user) {
-  //     // login
-  //     this.props.pushState('/loginSuccess')
-  //   } else if (this.props.user && !nextProps.user) {
-  //     // logout
-  //     this.props.pushState('/')
-  //   }
-  // }
+  static propTypes = {
+    children: PropTypes.object.isRequired,
+    isLoggedIn: PropTypes.bool,
+    saveTokenToLocalStorage: PropTypes.func,
+    logout: PropTypes.func
+  }
 
-  // handleLogout = (event) => {
-  //   event.preventDefault()
-  //   this.props.logout()
-  // }
+  componentWillReceiveProps (nextProps) {
+    if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
+      // login
+      // this.props.pushState('/loginSuccess')
+      this.props.saveTokenToLocalStorage()
+      console.log('logged In!')
+    } else if (this.props.isLoggedIn && !nextProps.isLoggedIn) {
+      // logout
+      // this.props.pushState('/')
+      console.log('logged out!')
+    }
+  }
+
+  handleLogout = (event) => {
+    event.preventDefault()
+    this.props.logout()
+  }
 
   render () {
     // const {user} = this.props
@@ -73,6 +88,14 @@ export default class App extends Component {
               <LinkContainer to='/admin'>
                 <NavItem>Admin</NavItem>
               </LinkContainer>
+              <LinkContainer to='/login'>
+                <NavItem>Login</NavItem>
+              </LinkContainer>
+              <LinkContainer to="/logout">
+                <NavItem className="logout-link" onClick={this.handleLogout}>
+                  Logout
+                </NavItem>
+              </LinkContainer>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -84,14 +107,3 @@ export default class App extends Component {
     )
   }
 }
-
-App.propTypes = {
-  children: PropTypes.object.isRequired
-  // user: PropTypes.object,
-  // logout: PropTypes.func.isRequired,
-  // pushState: PropTypes.func.isRequired
-}
-
-// App.contextTypes = {
-//   store: PropTypes.object.isRequired
-// }

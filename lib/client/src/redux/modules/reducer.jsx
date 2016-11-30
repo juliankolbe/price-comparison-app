@@ -12,6 +12,7 @@ import supplier from './supplier'
 import collectionUploadForm from './collectionUploadForm'
 import supplierMasterUploadForm from './supplierMasterUploadForm'
 import pcDownloadForm from './pcDownloadForm'
+import auth from './auth'
 
 // import multireducer from 'multireducer';
 // import { routerReducer } from 'react-router-redux';
@@ -29,5 +30,6 @@ export default combineReducers({
   supplier,
   admin,
   upload,
-  home
+  home,
+  auth
 })

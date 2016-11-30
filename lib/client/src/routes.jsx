@@ -8,6 +8,7 @@ import {
     // Layout,
     Test,
     Upload,
+    Login,
     NotFound
   } from './containers'
 
@@ -48,6 +49,7 @@ export default (store) => {
       </Route> */}
 
       { /* Routes */ }
+      <Route path='login' component={Login} />
       <Route path='admin' component={Admin} />
       <Route path='test' component={Test} />
       <Route path='upload' component={Upload} />
