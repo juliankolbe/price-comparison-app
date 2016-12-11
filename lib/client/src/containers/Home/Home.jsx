@@ -1,49 +1,49 @@
-import { PcDownloadForm } from '../../components'
-import React, {Component, PropTypes} from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import { asyncConnect } from 'redux-connect'
-import * as duck from '../../redux/modules/home'
-import * as pcDownloadFormDuck from '../../redux/modules/pcDownloadForm'
-import axios from 'axios'
+// import { PcDownloadForm } from '../../components'
+import React, {Component} from 'react'
+// import { bindActionCreators } from 'redux'
+// import { connect } from 'react-redux'
+// import { asyncConnect } from 'redux-connect'
+// import * as duck from '../../redux/modules/home'
+// import * as pcDownloadFormDuck from '../../redux/modules/pcDownloadForm'
+// import axios from 'axios'
 import Helmet from 'react-helmet'
 import { Grid } from 'react-bootstrap'
 
-@asyncConnect([{
-  // deferred: true,
-  promise: ({store: {dispatch, getState}}) => {
-    // if (!duck.isLoaded(getState())) {
-    //   return dispatch(duck.load())
-    // }
-    const promises = []
-
-    if (!duck.isLoaded(getState())) {
-      promises.push(dispatch(duck.load()))
-    }
-    if (!pcDownloadFormDuck.isLoaded(getState())) {
-      promises.push(dispatch(pcDownloadFormDuck.loadCollections()))
-    }
-
-    return Promise.all(promises)
-  }
-}])
-@connect(
-  state => (duck.selector(state.home)),
-  dispatch => bindActionCreators(Object.assign({}, duck, pcDownloadFormDuck)
-    , dispatch)
-)
+// @asyncConnect([{
+//   // deferred: true,
+//   promise: ({store: {dispatch, getState}}) => {
+//     // if (!duck.isLoaded(getState())) {
+//     //   return dispatch(duck.load())
+//     // }
+//     const promises = []
+//
+//     if (!duck.isLoaded(getState())) {
+//       promises.push(dispatch(duck.load()))
+//     }
+//     if (!pcDownloadFormDuck.isLoaded(getState())) {
+//       promises.push(dispatch(pcDownloadFormDuck.loadCollections()))
+//     }
+//
+//     return Promise.all(promises)
+//   }
+// }])
+// @connect(
+//   state => (duck.selector(state.home)),
+//   dispatch => bindActionCreators(Object.assign({}, duck, pcDownloadFormDuck)
+//     , dispatch)
+// )
 export default class Home extends Component {
 
-  static propTypes = {
-    selectCollection: PropTypes.func,
-    getSelected: PropTypes.func,
-    // setCollections: func,
-    // collectionSelected: any,
-    getCollections: PropTypes.array,
-    load: PropTypes.func,
-    store: PropTypes.object,
-    resetCollectionLoaded: PropTypes.func
-  }
+  // static propTypes = {
+  //   selectCollection: PropTypes.func,
+  //   getSelected: PropTypes.func,
+  //   // setCollections: func,
+  //   // collectionSelected: any,
+  //   getCollections: PropTypes.array,
+  //   load: PropTypes.func,
+  //   store: PropTypes.object,
+  //   resetCollectionLoaded: PropTypes.func
+  // }
 
   // componentDidMount = () => {
   //   // axios.get('http://localhost:8080/api/collection/all')
@@ -55,24 +55,24 @@ export default class Home extends Component {
   //   //   })
   //   this.props.load()
   // }
-  componentDidMount = () => {
-    this.props.resetCollectionLoaded()
-  }
-  onCollectionChanged = (e) => {
-    this.props.selectCollection(e.target.value)
-  }
-  handleSubmit = (e) => {
-    e.preventDefault()
-    if (this.props.getSelected) {
-      axios({
-        method: 'post',
-        url: 'http://localhost:8080/api/download',
-        data: {
-          collectionId: this.props.getSelected
-        }
-      })
-    }
-  }
+  // componentDidMount = () => {
+  //   this.props.resetCollectionLoaded()
+  // }
+  // onCollectionChanged = (e) => {
+  //   this.props.selectCollection(e.target.value)
+  // }
+  // handleSubmit = (e) => {
+  //   e.preventDefault()
+  //   if (this.props.getSelected) {
+  //     axios({
+  //       method: 'post',
+  //       url: 'http://localhost:8080/api/download',
+  //       data: {
+  //         collectionId: this.props.getSelected
+  //       }
+  //     })
+  //   }
+  // }
   render () {
     // const styles = require('./Home.scss')
     // let collections
@@ -83,7 +83,8 @@ export default class Home extends Component {
       <div className='container'>
         <Helmet title='Home' />
         <Grid>
-          <PcDownloadForm />
+          <h1>Gaia Healthcare</h1>
+          <h2>Price Comparison App</h2>
         </Grid>
         {/* <form className='form' onSubmit={this.handleSubmit}>
           <div className={styles['switch-field']}>

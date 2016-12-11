@@ -8,7 +8,7 @@ import Nav from 'react-bootstrap/lib/Nav'
 import NavItem from 'react-bootstrap/lib/NavItem'
 import Helmet from 'react-helmet'
 // import { isLoaded as isAuthLoaded, load as loadAuth, logout } from 'redux/modules/auth'
-// import { push } from 'react-router-redux'
+import { push as pushState } from 'react-router-redux'
 import config from '../../config'
 import { asyncConnect } from 'redux-connect'
 
@@ -33,7 +33,7 @@ import * as authDuck from '../../redux/modules/auth'
 // }])
 @connect(
   state => (authDuck.selector(state.auth)),
-  dispatch => bindActionCreators(Object.assign({}, authDuck)
+  dispatch => bindActionCreators(Object.assign({}, authDuck, { pushState })
     , dispatch)
 )
 export default class App extends Component {
@@ -41,18 +41,18 @@ export default class App extends Component {
     children: PropTypes.object.isRequired,
     isLoggedIn: PropTypes.bool,
     saveTokenToLocalStorage: PropTypes.func,
-    logout: PropTypes.func
+    logout: PropTypes.func,
+    pushState: PropTypes.func
   }
 
   componentWillReceiveProps (nextProps) {
     if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
       // login
-      // this.props.pushState('/loginSuccess')
-      this.props.saveTokenToLocalStorage()
+      this.props.pushState('/')
       console.log('logged In!')
     } else if (this.props.isLoggedIn && !nextProps.isLoggedIn) {
       // logout
-      // this.props.pushState('/')
+      this.props.pushState('/login')
       console.log('logged out!')
     }
   }
@@ -82,6 +82,9 @@ export default class App extends Component {
 
           <Navbar.Collapse >
             <Nav navbar>
+              <LinkContainer to='/pricecomparison'>
+                <NavItem>Price Comparison</NavItem>
+              </LinkContainer>
               <LinkContainer to='/upload'>
                 <NavItem>Upload</NavItem>
               </LinkContainer>

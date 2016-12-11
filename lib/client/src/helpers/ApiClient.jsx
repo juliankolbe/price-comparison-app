@@ -1,4 +1,5 @@
 import superagent from 'superagent'
+import cookie from 'react-cookie'
 // import config from '../config'
 
 const methods = ['get', 'post', 'put', 'patch', 'del']
@@ -20,8 +21,12 @@ export default class ApiClient {
       this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
         const request = superagent[method](formatUrl(path))
 
-        if (window.localStorage.token) {
-          request.set('Authorization', window.localStorage.token)
+        // if (window.localStorage.token) {
+        //   request.set('Authorization', window.localStorage.token)
+        // }
+
+        if (cookie.load('token')) {
+          request.set('Authorization', cookie.load('token'))
         }
 
         if (params) {
@@ -32,7 +37,7 @@ export default class ApiClient {
           request.send(data)
         }
 
-        request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body))
+        request.end((err, { body, header } = {}) => err ? reject(body || err) : resolve({body, header}))
       }) }
     )
   }
