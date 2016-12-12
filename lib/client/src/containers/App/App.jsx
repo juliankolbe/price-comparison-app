@@ -40,12 +40,20 @@ export default class App extends Component {
   static propTypes = {
     children: PropTypes.object.isRequired,
     isLoggedIn: PropTypes.bool,
-    saveTokenToLocalStorage: PropTypes.func,
+    // saveTokenToLocalStorage: PropTypes.func,
     logout: PropTypes.func,
-    pushState: PropTypes.func
+    pushState: PropTypes.func,
+    hasLoaded: PropTypes.bool,
+    load: PropTypes.func
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillMount = () => {
+    if (!this.props.hasLoaded) {
+      this.props.load()
+    }
+  }
+
+  componentWillReceiveProps = (nextProps) => {
     if (!this.props.isLoggedIn && nextProps.isLoggedIn) {
       // login
       this.props.pushState('/')

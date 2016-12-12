@@ -21,7 +21,9 @@ const initialState = {
   loggedIn: false,
   token: null,
   tokenSaved: false,
-  response: null
+  response: null,
+  user: null,
+  roles: null
 }
 
 export default function reducer (state = initialState, action = {}) {
@@ -37,7 +39,9 @@ export default function reducer (state = initialState, action = {}) {
         loaded: true,
         loading: false,
         loggedIn: true,
-        token: action.result.token
+        token: action.result.token,
+        user: action.result.user,
+        roles: action.result.roles
       }
     case LOAD_FAIL:
       return {
@@ -58,7 +62,9 @@ export default function reducer (state = initialState, action = {}) {
         loggedIn: true,
         token: action.result.token,
         loginError: null,
-        response: action.result
+        response: action.result,
+        user: action.result.user,
+        roles: action.result.roles
       }
     case LOG_IN_FAIL:
       return {
@@ -95,6 +101,11 @@ export default function reducer (state = initialState, action = {}) {
   }
 }
 
+// Cookie Loader
+export function getToken () {
+  return cookie.load('token')
+}
+
 // Async Action Creators
 export function login (formData) {
   return {
@@ -113,29 +124,11 @@ export function load () {
 }
 
 // THUNKS
-export function resetToken (token) {
-  return function (dispatch) {
-    // if (window.localStorage.getItem('token')) {
-    //   window.localStorage.removeItem('token')
-    // }
-    // window.localStorage.setItem('token', token)
-    cookie.save('token', token, { path: '/' })
-    dispatch(tokenSaved())
-  }
-}
-
 export function unsetToken () {
   return function (dispatch) {
-    // if (window.localStorage.getItem('token')) {
-    //   window.localStorage.removeItem('token')
-    // }
     cookie.remove('token', { path: '/' })
     dispatch(tokenDeleted())
   }
-}
-
-export function getToken () {
-  return cookie.load('token')
 }
 
 export function saveTokenToCookie (token) {
@@ -145,25 +138,23 @@ export function saveTokenToCookie (token) {
   }
 }
 
-export function saveTokenToLocalStorage (token) {
-  return function (dispatch) {
-    if (window.localStorage.getItem('token')) {
-      window.localStorage.removeItem('token')
-    }
-    window.localStorage.setItem('token', token)
-    dispatch(tokenSaved())
-  }
-}
-
 export function logout () {
   return function (dispatch, getState) {
-    // if (window.localStorage.getItem('token')) {
-    //   window.localStorage.removeItem('token')
-    // }(
     dispatch(unsetToken())
     dispatch(setLoggedOut())
   }
 }
+
+// export function saveTokenToLocalStorage (token) {
+//   return function (dispatch) {
+//     if (window.localStorage.getItem('token')) {
+//       window.localStorage.removeItem('token')
+//     }
+//     window.localStorage.setItem('token', token)
+//     dispatch(tokenSaved())
+//   }
+// }
+
 // Action Creators
 export function tokenSaved () {
   return {
