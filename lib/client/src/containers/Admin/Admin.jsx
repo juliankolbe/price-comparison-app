@@ -29,13 +29,17 @@ export default class Admin extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     if (this.props.getSupplierNameInput && this.props.getSupplierNameInput !== '') {
-      axios({
+      let settings = {
         method: 'post',
         url: 'http://localhost:8080/api/supplier',
         data: {
           supplierName: this.props.getSupplierNameInput
         }
-      })
+      }
+      if (window.localStorage.token) {
+        settings.headers = {'Authorization': window.localStorage.token}
+      }
+      axios(settings)
       .then((response) => {
         this.getAllSuppliers()
       })
