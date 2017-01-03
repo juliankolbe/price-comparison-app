@@ -1,5 +1,8 @@
 import { createStructuredSelector } from 'reselect'
 import { LOCATION_CHANGE } from 'react-router-redux'
+import parseCsvFiles from '../../csv/parseCsvFiles'
+import jsonToCsv from '../../csv/jsonToCsv'
+import browserDownload from '../helpers/browserDownload'
 
 // Action types
 const ADD_FILE_DROPPED = 'price-comparison/collectionUploadForm/ADD_FILE_DROPPED'
@@ -9,6 +12,9 @@ const UPLOAD_SUCCESS = 'price-comparison/collectionUploadForm/UPLOAD_SUCCESS'
 const UPLOAD_FAIL = 'price-comparison/collectionUploadForm/UPLOAD_FAIL'
 const SET_DATED_AT = 'price-comparison/collectionUploadForm/SET_DATED_AT'
 const SET_FILE_SUPPLIER = 'price-comparison/collectionUploadForm/SET_FILE_SUPPLIER'
+const PARSING_CSV_FILES = 'price-comparison/collectionUploadForm/PARSE_CSV_FILES'
+const PARSING_CSV_FILES_SUCCESS = 'price-comparison/collectionUploadForm/PARSE_CSV_FILES_SUCCESS'
+const PARSING_CSV_FILES_FAIL = 'price-comparison/collectionUploadForm/PARSE_CSV_FILES_FAIL'
 
 const initialState = {
   filesDropped: [],
@@ -41,6 +47,22 @@ export default function reducer (state = initialState, action = {}) {
         ...state,
         filesDropped: state.filesDropped.map((file, i) => action.id === i ? { ...file, supplier: action.supplier } : { ...file })
       }
+    case PARSING_CSV_FILES:
+      return {
+        ...state,
+        filesDropped: state.filesDropped.filter(file => !file.status || file.status !== 'parsed').map(file => ({ ...file, status: 'parsing' }))
+      }
+    case PARSING_CSV_FILES_SUCCESS:
+      return {
+        ...state,
+        filesDropped: state.filesDropped.filter(file => file.status && file.status === 'parsing')
+          .map(file => ({ ...file, status: 'parsed', parsedCsv: action.result.reduce((final, csvObj) => csvObj.fileName === file.name ? csvObj.parsedCsv : final, {}) }))
+      }
+    case PARSING_CSV_FILES_FAIL:
+      return {
+        ...state,
+        filesDropped: state.filesDropped.filter(file => file.status && file.status === 'parsing').map(file => ({ ...file, status: 'failed', error: action.error }))
+      }
     case UPLOAD:
       return {
         ...state,
@@ -51,21 +73,55 @@ export default function reducer (state = initialState, action = {}) {
         ...state,
         uploading: false,
         uploaded: true,
-        uploadResponse: action.response,
+        uploadSuccess: action.result.success,
+        filesDropped: state.filesDropped.map(file => ({ ...file, statsObj: action.result.data[file.name] })),
         error: null
       }
     case UPLOAD_FAIL:
       return {
         ...state,
         uploading: false,
+        uploadSuccess: false,
         uploaded: false,
-        uploadResponse: null,
         error: action.error
       }
     case LOCATION_CHANGE:
       return initialState
     default:
       return state
+  }
+}
+
+// THUNKS
+
+export function parseCsvFilesAction (files) {
+  let settings = {
+    header: true,
+    skipEmptyLines: true
+  }
+  return function (dispatch) {
+    dispatch(parsingCsvFiles())
+    parseCsvFiles(files, settings)
+    .then(result => {
+      dispatch(parsingCsvFilesSuccess(result))
+    })
+    .catch(error => {
+      dispatch(parsingCsvFilesFail(error))
+      console.log(error)
+    })
+  }
+}
+
+export function downloadErrorReport (errorReport, fileName) {
+  return function (dispatch) {
+    // dispatch(convertingCsvToJson())
+    if (errorReport) {
+      // convert json to csv
+      let csv = jsonToCsv(errorReport)
+      let downloadFileName = 'Error Report - ' + fileName
+      // prompt download of csv file
+      browserDownload(csv, downloadFileName)
+    }
   }
 }
 
@@ -80,6 +136,27 @@ export function upload (formData) {
 }
 
 // Action Creators
+export function parsingCsvFiles () {
+  return {
+    type: PARSING_CSV_FILES
+  }
+}
+
+export function parsingCsvFilesSuccess (result) {
+  console.log(result)
+  return {
+    type: PARSING_CSV_FILES_SUCCESS,
+    result: result
+  }
+}
+
+export function parsingCsvFilesFail (error) {
+  return {
+    type: PARSING_CSV_FILES_FAIL,
+    error: error
+  }
+}
+
 export function addFileDropped (fileDropped) {
   return {
     type: ADD_FILE_DROPPED,
@@ -113,9 +190,11 @@ export function setFileSupplier (id, supplier) {
 const getFilesDropped = state => state.filesDropped
 const isUploading = state => state.uploading
 const getDatedAt = state => state.datedAt
+const isUploadSuccess = state => state.uploadSuccess
 // Reselect memoised selector
 export const selector = createStructuredSelector({
   getFilesDropped,
   isUploading,
-  getDatedAt
+  getDatedAt,
+  isUploadSuccess
 })

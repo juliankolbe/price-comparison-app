@@ -18,8 +18,14 @@ import IconButton from 'material-ui/IconButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 import DatePicker from 'material-ui/DatePicker'
+import NavigationCheckIcon from 'material-ui/svg-icons/navigation/check'
+import NavigationCloseIcon from 'material-ui/svg-icons/navigation/close'
+import { red500, green500 } from 'material-ui/styles/colors'
 // import { DatePicker } from 'redux-form-material-ui'
 import { Row, Col } from 'react-bootstrap'
+
+import StatsRowDisplay from './StatsRowDisplay'
+import DownloadErrorReportButton from './DownloadErrorReportButton'
 
 const inlineStyles = {
   tableRowColumn: {
@@ -68,13 +74,16 @@ export default class CollectionUploadForm extends Component {
     addFileDropped: PropTypes.func.isRequired,
     removeFileDropped: PropTypes.func.isRequired,
     getSuppliers: PropTypes.array.isRequired,
+    parseCsvFilesAction: PropTypes.func.isRequired,
     // fieldName: PropTypes.string.isRequired,
     upload: PropTypes.func.isRequired,
     store: PropTypes.object,
     isUploading: PropTypes.bool,
     setDatedAt: PropTypes.func,
     getDatedAt: PropTypes.any,
-    setFileSupplier: PropTypes.func
+    setFileSupplier: PropTypes.func,
+    isUploadSuccess: PropTypes.bool,
+    downloadErrorReport: PropTypes.func
   }
 
   createFileFormData = (data) => {
@@ -111,16 +120,15 @@ export default class CollectionUploadForm extends Component {
   }
 
   handleSubmit = (data) => {
-    console.log(formData)
     let formData = this.createFileFormData(data)
     this.props.upload(formData)
-    console.log(formData)
     // make post request with the returned formdata object to upload/collections
   }
 
   onFileDropped = (filesToUpload, e) => {
     let filesToFileHash = filesToUpload.map(file => ({ file: file, name: file.name, supplier: undefined }))
     this.props.addFileDropped(filesToFileHash)
+    // this.props.parseCsvFilesAction(filesToFileHash)
   }
 
   onDateAtChanged = (event, date) => {
@@ -136,18 +144,26 @@ export default class CollectionUploadForm extends Component {
     this.props.removeFileDropped(id)
   }
 
+  onActionDownloadErrorReportClick = (errorReport, filename) => {
+    this.props.downloadErrorReport(errorReport, filename)
+  }
+
   onSelectWrapperChange = (id, value) => {
     this.props.setFileSupplier(id, value)
   }
 
   render () {
     const styles = require('./CollectionUploadForm.scss')
-    const { handleSubmit, getSuppliers, isUploading, getFilesDropped, getDatedAt } = this.props
+    const { handleSubmit, getSuppliers, isUploading, getFilesDropped, getDatedAt, isUploadSuccess } = this.props
     let filesDropped
     let options = {}
     if (getSuppliers) {
       options = getSuppliers.map((supplierDBObj, i) => ({value: supplierDBObj.name, label: supplierDBObj.name}))
     }
+    // CSV validation failed serverside
+    // if (!uploadSuccess) {
+    //
+    // }
     if (getFilesDropped) {
       filesDropped = getFilesDropped.map((file, i) =>
         <TableRow key={i} id={i}>
@@ -169,11 +185,18 @@ export default class CollectionUploadForm extends Component {
             <SelectWrapper name={`supplierForList${i}`} options={options} value={file.supplier} label='Supplier' placeholder='Supplier...' onChange={this.onSelectWrapperChange} arrayIndex={i} />
           </TableRowColumn>
           <TableRowColumn>
+            <StatsRowDisplay file={file} isUploadSuccess={isUploadSuccess} />
+          </TableRowColumn>
+          <TableRowColumn>
             {/* <button id={i} onClick={this.onRemoveClick}>Remove</button>
             <IconButton id={i} onClick={this.onRemoveIconClick}>
               <ActionDeleteIcon />
             </IconButton> */}
             <ActionDeleteIconWrapper onClick={this.onActionDeleteIconWrapperClick} arrayIndex={i} />
+            <DownloadErrorReportButton file={file} onClick={this.onActionDownloadErrorReportClick} />
+          </TableRowColumn>
+          <TableRowColumn>
+            {file.statsObj && file.statsObj.errorReport ? <NavigationCloseIcon color={red500} /> : <NavigationCheckIcon color={green500} />}
           </TableRowColumn>
         </TableRow>
         // {/* <div key={i} className={styles.fileDroppedDiv}>
@@ -244,7 +267,9 @@ export default class CollectionUploadForm extends Component {
                 <TableRow>
                   <TableHeaderColumn>File name</TableHeaderColumn>
                   <TableHeaderColumn>Supplier</TableHeaderColumn>
+                  <TableHeaderColumn>Products</TableHeaderColumn>
                   <TableHeaderColumn>Options</TableHeaderColumn>
+                  <TableHeaderColumn>Status</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody
