@@ -20,7 +20,7 @@ export default class DownloadErrorReportButton extends Component {
     const { statsObj } = this.props.file
     if (statsObj && statsObj.errorReport) {
       return (
-        <IconButton onClick={this.onDownloadClick} tooltip='Download Error Report' tooltipPosition='top-right' tooltipStyles={{ 'top': 17 }}>
+        <IconButton onClick={this.onDownloadClick} tooltip='Download Error Report' tooltipPosition='top-right' tooltipStyles={{ 'top': 15 }}>
           <FileDownloadIcon color={red500} />
         </IconButton>
       )

@@ -16,7 +16,7 @@ const StatsRowDisplay = ({file, isUploadSuccess}) => {
     return (
       <div>
         <div>Valid Products: <span style={validStyle}>{validProducts}</span></div>
-        <div>Invalid Products : <span style={invalidStyle}>{invalidProducts}</span></div>
+        <div>Invalid Products: <span style={invalidStyle}>{invalidProducts}</span></div>
       </div>
     )
   } else {

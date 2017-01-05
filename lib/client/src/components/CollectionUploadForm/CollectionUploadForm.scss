@@ -22,3 +22,7 @@
 .topRow {
   margin-top: 30px
 }
+// Fixing material ui icon button issue, where tooltips would be underneath buttons
+button[type="button"]:hover, button[type="button"]:focus {
+    z-index: 10 !important;
+}

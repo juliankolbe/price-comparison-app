@@ -18,14 +18,13 @@ import IconButton from 'material-ui/IconButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import CircularProgress from 'material-ui/CircularProgress'
 import DatePicker from 'material-ui/DatePicker'
-import NavigationCheckIcon from 'material-ui/svg-icons/navigation/check'
-import NavigationCloseIcon from 'material-ui/svg-icons/navigation/close'
-import { red500, green500 } from 'material-ui/styles/colors'
+
 // import { DatePicker } from 'redux-form-material-ui'
 import { Row, Col } from 'react-bootstrap'
 
 import StatsRowDisplay from './StatsRowDisplay'
 import DownloadErrorReportButton from './DownloadErrorReportButton'
+import StatusSymbol from './StatusSymbol.jsx'
 
 const inlineStyles = {
   tableRowColumn: {
@@ -184,8 +183,11 @@ export default class CollectionUploadForm extends Component {
             /> */}
             <SelectWrapper name={`supplierForList${i}`} options={options} value={file.supplier} label='Supplier' placeholder='Supplier...' onChange={this.onSelectWrapperChange} arrayIndex={i} />
           </TableRowColumn>
-          <TableRowColumn>
+          <TableRowColumn style={{ overflow: 'visible' }}>
             <StatsRowDisplay file={file} isUploadSuccess={isUploadSuccess} />
+          </TableRowColumn>
+          <TableRowColumn style={{ overflow: 'visible' }}>
+            <StatusSymbol file={file} />
           </TableRowColumn>
           <TableRowColumn>
             {/* <button id={i} onClick={this.onRemoveClick}>Remove</button>
@@ -194,9 +196,6 @@ export default class CollectionUploadForm extends Component {
             </IconButton> */}
             <ActionDeleteIconWrapper onClick={this.onActionDeleteIconWrapperClick} arrayIndex={i} />
             <DownloadErrorReportButton file={file} onClick={this.onActionDownloadErrorReportClick} />
-          </TableRowColumn>
-          <TableRowColumn>
-            {file.statsObj && file.statsObj.errorReport ? <NavigationCloseIcon color={red500} /> : <NavigationCheckIcon color={green500} />}
           </TableRowColumn>
         </TableRow>
         // {/* <div key={i} className={styles.fileDroppedDiv}>
@@ -268,8 +267,8 @@ export default class CollectionUploadForm extends Component {
                   <TableHeaderColumn>File name</TableHeaderColumn>
                   <TableHeaderColumn>Supplier</TableHeaderColumn>
                   <TableHeaderColumn>Products</TableHeaderColumn>
-                  <TableHeaderColumn>Options</TableHeaderColumn>
                   <TableHeaderColumn>Status</TableHeaderColumn>
+                  <TableHeaderColumn>Options</TableHeaderColumn>
                 </TableRow>
               </TableHeader>
               <TableBody

@@ -16,7 +16,7 @@ export default class ActionDeleteIconWrapper extends Component {
 
   render () {
     return (
-      <IconButton onClick={this.onRemoveIconClick} tooltip='Remove file' tooltipPosition='top-right' tooltipStyles={{ 'top': 17 }}>
+      <IconButton onClick={this.onRemoveIconClick} tooltip='Remove file' tooltipPosition='top-right' tooltipStyles={{ 'top': 15 }}>
         <ActionDeleteIcon color={red500} />
       </IconButton>
     )

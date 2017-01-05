@@ -47,22 +47,22 @@ export default function reducer (state = initialState, action = {}) {
         ...state,
         filesDropped: state.filesDropped.map((file, i) => action.id === i ? { ...file, supplier: action.supplier } : { ...file })
       }
-    case PARSING_CSV_FILES:
-      return {
-        ...state,
-        filesDropped: state.filesDropped.filter(file => !file.status || file.status !== 'parsed').map(file => ({ ...file, status: 'parsing' }))
-      }
-    case PARSING_CSV_FILES_SUCCESS:
-      return {
-        ...state,
-        filesDropped: state.filesDropped.filter(file => file.status && file.status === 'parsing')
-          .map(file => ({ ...file, status: 'parsed', parsedCsv: action.result.reduce((final, csvObj) => csvObj.fileName === file.name ? csvObj.parsedCsv : final, {}) }))
-      }
-    case PARSING_CSV_FILES_FAIL:
-      return {
-        ...state,
-        filesDropped: state.filesDropped.filter(file => file.status && file.status === 'parsing').map(file => ({ ...file, status: 'failed', error: action.error }))
-      }
+    // case PARSING_CSV_FILES:
+    //   return {
+    //     ...state,
+    //     filesDropped: state.filesDropped.filter(file => !file.status || file.status !== 'parsed').map(file => ({ ...file, status: 'parsing' }))
+    //   }
+    // case PARSING_CSV_FILES_SUCCESS:
+    //   return {
+    //     ...state,
+    //     filesDropped: state.filesDropped.filter(file => file.status && file.status === 'parsing')
+    //       .map(file => ({ ...file, status: 'parsed', parsedCsv: action.result.reduce((final, csvObj) => csvObj.fileName === file.name ? csvObj.parsedCsv : final, {}) }))
+    //   }
+    // case PARSING_CSV_FILES_FAIL:
+    //   return {
+    //     ...state,
+    //     filesDropped: state.filesDropped.filter(file => file.status && file.status === 'parsing').map(file => ({ ...file, status: 'failed', error: action.error }))
+    //   }
     case UPLOAD:
       return {
         ...state,
@@ -74,7 +74,8 @@ export default function reducer (state = initialState, action = {}) {
         uploading: false,
         uploaded: true,
         uploadSuccess: action.result.success,
-        filesDropped: state.filesDropped.map(file => ({ ...file, statsObj: action.result.data[file.name] })),
+        filesDropped: state.filesDropped
+          .map(file => ({ ...file, statsObj: action.result.data[file.name], uploaded: true })),
         error: null
       }
     case UPLOAD_FAIL:
