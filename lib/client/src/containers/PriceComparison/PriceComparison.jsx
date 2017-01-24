@@ -1,5 +1,6 @@
-import { PcDownloadForm } from '../../components'
+// import { PcDownloadForm } from '../../components'
 import React, {Component, PropTypes} from 'react'
+import { Link } from 'react-router'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { asyncConnect } from 'redux-connect'
@@ -42,7 +43,8 @@ export default class PriceComparison extends Component {
     getCollections: PropTypes.array,
     load: PropTypes.func,
     store: PropTypes.object,
-    resetCollectionLoaded: PropTypes.func
+    resetCollectionLoaded: PropTypes.func,
+    children: PropTypes.object
   }
 
   // componentDidMount = () => {
@@ -83,7 +85,16 @@ export default class PriceComparison extends Component {
       <div className='container'>
         <Helmet title='Price Comparison' />
         <Grid>
-          <PcDownloadForm />
+          <Link to='/pricecomparison/collections'>
+            <div>collections</div>
+          </Link>
+          <Link to='/pricecomparison/pricelists'>
+            <div>pricelists</div>
+          </Link>
+          {/* <PcDownloadForm /> */}
+          <div>
+            {this.props.children}
+          </div>
         </Grid>
         {/* <form className='form' onSubmit={this.handleSubmit}>
           <div className={styles['switch-field']}>

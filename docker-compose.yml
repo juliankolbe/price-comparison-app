@@ -22,6 +22,7 @@ services:
       - 'csv_upload_node_modules:/usr/src/app/lib/csvUpload/node_modules'
       - 'client_node_modules:/usr/src/app/lib/client/node_modules'
       - 'auth_node_modules:/usr/src/app/lib/auth/node_modules'
+      - 'price_comparison_node_modules:/usr/src/app/lib/priceComparison/node_modules'
       # - '/etc/localtime:/etc/localtime'
     working_dir: /usr/src/app
     # links:
@@ -76,6 +77,8 @@ volumes:
   client_node_modules:
     driver: "local"
   auth_node_modules:
+    driver: "local"
+  price_comparison_node_modules:
     driver: "local"
 
 networks:

@@ -16,20 +16,20 @@ export default class StatusSymbol extends Component {
     if (uploaded) {
       if (statsObj && statsObj.errorReport) {
         return (
-          <IconButton tooltip={errorList} tooltipPosition='top-right' tooltipStyles={{ 'top': 15, marginLeft: '27px' }}>
+          <IconButton tooltip={errorList} tooltipPosition='top-right' tooltipStyles={{ 'top': 15, marginLeft: '27px' }} disableTouchRipple hoveredStyle={{ cursor: 'default' }} style={{ cursor: 'default' }}>
             <NavigationCloseIcon color={red500} />
           </IconButton>
         )
       } else {
         return (
-          <IconButton tooltip='No errors' tooltipPosition='top-right' tooltipStyles={{ 'top': 15 }}>
+          <IconButton tooltip='No errors' tooltipPosition='top-right' tooltipStyles={{ 'top': 15 }} disableTouchRipple hoveredStyle={{ cursor: 'default' }} style={{ cursor: 'default' }}>
             <NavigationCheckIcon color={green500} />
           </IconButton>
         )
       }
     } else {
       return (
-        <IconButton tooltip='Not uploaded yet' tooltipPosition='top-right' tooltipStyles={{ 'top': 15 }}>
+        <IconButton tooltip='Not uploaded yet' tooltipPosition='top-right' tooltipStyles={{ 'top': 15 }} disableTouchRipple hoveredStyle={{ cursor: 'default' }} style={{ cursor: 'default' }}>
           <ContentRemoveIcon color={grey500} />
         </IconButton>
       )

@@ -15,6 +15,9 @@ import {
     NotFound
   } from './containers'
 
+import TestPage from './containers/TestPage.jsx'
+import { PcDownloadForm } from './components'
+
 // Material-ui uses on tap as its faster than onclick (only for touch really but whatever)
 const injectTapEventPlugin = require('react-tap-event-plugin')
 injectTapEventPlugin()
@@ -113,7 +116,11 @@ export default (store) => {
       <Route onEnter={requireLoginAndRoles(['USER', 'ADMIN'])}>
         <Route path='test' component={Test} />
         <Route path='upload' component={Upload} />
-        <Route path='pricecomparison' component={PriceComparison} />
+        <Route path='pricecomparison' component={PriceComparison}>
+          <Route path='collections' component={PcDownloadForm} />
+          <Route path='pricelists' component={TestPage} />
+          {/* <Route path='direct' /> */}
+        </Route>
       </Route>
 
       { /* Admin routes */ }

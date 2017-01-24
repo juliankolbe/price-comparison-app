@@ -75,7 +75,12 @@ export default function reducer (state = initialState, action = {}) {
         uploaded: true,
         uploadSuccess: action.result.success,
         filesDropped: state.filesDropped
-          .map(file => ({ ...file, statsObj: action.result.data[file.name], uploaded: true })),
+          .map(file => (
+            { ...file,
+              statsObj: action.result && action.result.data && action.result.data[file.name] ? action.result.data[file.name] : null,
+              uploaded: true
+            }
+          )),
         error: null
       }
     case UPLOAD_FAIL:

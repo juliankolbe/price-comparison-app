@@ -10,8 +10,8 @@ const invalidStyle = {
   'fontWeight': 'bold'
 }
 
-const StatsRowDisplay = ({file, isUploadSuccess}) => {
-  if (file.statsObj && !isUploadSuccess) {
+const StatsRowDisplay = ({file}) => {
+  if (file.statsObj) {
     const { validProducts, invalidProducts } = file.statsObj
     return (
       <div>
