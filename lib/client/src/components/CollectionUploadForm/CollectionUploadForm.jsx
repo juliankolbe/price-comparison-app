@@ -85,6 +85,10 @@ export default class CollectionUploadForm extends Component {
     downloadErrorReport: PropTypes.func
   }
 
+  compileFileErrorList = () => {
+    // Check for invalid products...
+  }
+
   createFileFormData = (data) => {
     let body = new FormData()
     let fileObjs = this.props.getFilesDropped
